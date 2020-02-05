@@ -19,9 +19,9 @@ const httpOptions = {
 export class AuthService{
 
     
-    private loginUrl = 'http://localhost:8080/api/auth/signin';
-    private  registerAddressUrl= 'http://localhost:8080/AddressApi/address';
-    private registerUserUrl = 'http://localhost:8080/api/auth/signup';
+    private loginUrl = 'http://localhost:8080/api/ecommerce/signin';
+    
+    private registerUserUrl = 'http://localhost:8080/api/ecommerce/signup';
 
     constructor(private http: HttpClient ){
 
@@ -32,9 +32,8 @@ export class AuthService{
       }
      
 
-    registerAdd(info: RegisterAddress ): Observable<string>{
-        return this.http.post<string>(this.registerAddressUrl, info, httpOptions)
-   }
+    
+
     registerCust(info: RegisterUser): Observable<string>{
         return this.http.post<string>(this.registerUserUrl, info, httpOptions)
     }

@@ -69,7 +69,7 @@ public class UserPrinciple implements UserDetails {
                 user.getEmail(),
                 user.getContactNumber(),
                 user.getPassword(),
-                user.getObjAddress(),
+                user.getAddress(),
                 authorities
         );
     }

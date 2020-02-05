@@ -1,23 +1,26 @@
+import { RegisterAddress } from '../services/registerAddress-info';
+
 export class RegisterUser {
     firstName: string;
     surname: string;
-    name: String;
+    supplyName: string;
     username: string;
     email: string;
     contactNumber: string;
     password: string;
     addId: number;
     role: string[];
+    objAddress:  RegisterAddress;
  
-    constructor(firstName: string, surname: string,name: String,username: string, email: string,contactNumber: string, password: string) {
+    constructor(firstName: string, surname: string,supplyName: string,username: string, email: string,contactNumber: string, password: string,   objAddress:  RegisterAddress) {
         this.firstName = firstName;
         this.surname = surname;
-        this.name = name;
+        this.supplyName = supplyName;
         this.username = username;
         this.email = email;
         this.contactNumber = contactNumber;
         this.password = password;
-        this.addId = 1;
+        this.objAddress = objAddress;
         this.role = ['user'];
         
     }

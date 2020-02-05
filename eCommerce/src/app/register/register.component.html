@@ -13,6 +13,17 @@
       <hr>
 
 
+      <div *ngIf="authority === 'admin'" class="form-group">
+        <input type="radio" name="vehicle" value="Customer"> Customer<br>
+        </div>
+        <div *ngIf="authority === 'admin'" class="form-group">
+        <input type="radio" name="vehicle" value="Employee" checked> Employee<br>
+        </div>
+        <div *ngIf="authority === 'admin'" class="form-group">
+        <input type="radio" name="vehicle" value="Supplier  " checked> Supplier<br>
+        </div>
+    
+
       <div class="form-group">
       <label for="firstName"><b>Name</b></label>
       <input type="text" class="form-control" placeholder="Enter name" name="firstName" [(ngModel)]="form.firstName" #firstName="ngModel" />
@@ -73,18 +84,55 @@
         </div>
 
 
+
+        <div class="form-group">
+          <label for="houseNumber"><b>House Number</b></label>
+          <input type="text" class="form-control" placeholder="Enter houseNumber" name="houseNumber"  [(ngModel)]="form.houseNumber" #houseNumber="ngModel" required/>
+          <div *ngIf="f.submitted && houseNumber.invalid">
+            <div *ngIf="houseNumber.errors.required">House Number is required</div>
+          </div>
+        </div>
+    
+            
+            <div class="form-group">
+          <label for="street"><b>Street</b></label>
+          <input type="text" class="form-control" placeholder="Enter Street Name" name="street" [(ngModel)]="form.street" #street="ngModel" required/>
+          <div *ngIf="f.submitted && street.invalid">
+            <div *ngIf="street.errors.required">Street is required</div>
+          </div>
+        </div>
+                
+    
+              <div class="form-group">
+          <label for="city"><b>City</b></label>
+          <input type="text" class="form-control" placeholder="Enter City" name="city" [(ngModel)]="form.city" #city="ngModel" required/>
+          <div *ngIf="f.submitted && city.invalid">
+            <div *ngIf="city.errors.required">City is required</div>
+          </div>
+        </div>
+    
+              
+             
+              <div class="form-group">
+                <label for="state"><b>State</b></label>
+                <input type="text" class="form-control" placeholder="Enter State" name="state"  [(ngModel)]="form.state" #state="ngModel" required/>
+                <div *ngIf="f.submitted && state.invalid">
+                  <div *ngIf="state.errors.required">City is required</div>
+                </div>    
+              </div>
+    
+              
+              <div class="form-group">
+          <label for="zipCode"><b>Zip Code</b></label>
+          <input type="text" class="form-control" placeholder="Enter Zip Code" name="zipCode" [(ngModel)]="form.zipCode" #zipCode="ngModel" required/>
+          <div *ngIf="f.submitted && zipCode.invalid">
+            <div *ngIf="zipCode.errors.required">City is required</div>
+          </div>    
+        
+        </div>
       
 
-    <div *ngIf="authority === 'admin'" class="form-group">
-    <input type="radio" name="vehicle" value="Customer"> Customer<br>
-    </div>
-    <div *ngIf="authority === 'admin'" class="form-group">
-    <input type="radio" name="vehicle" value="Employee" checked> Employee<br>
-    </div>
-    <div *ngIf="authority === 'admin'" class="form-group">
-    <input type="radio" name="vehicle" value="Supplier  " checked> Supplier<br>
-    </div>
-
+    
       <p>By creating an account you agree to our <a href="#" style="color:dodgerblue">Terms & Privacy</a>.</p>
 
       <div class="clearfix">

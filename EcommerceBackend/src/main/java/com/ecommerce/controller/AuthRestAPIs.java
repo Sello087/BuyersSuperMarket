@@ -2,11 +2,14 @@ package com.ecommerce.controller;
 
 
 
+
 import java.util.HashSet;
 import java.util.Set;
- 
+
+import javax.servlet.ServletContext;
 import javax.validation.Valid;
- 
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +25,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
 import com.ecommerce.model.Role;
 import com.ecommerce.model.RoleName;
+import com.ecommerce.model.ShoppingCart;
+import com.ecommerce.model.SmartShopper;
 import com.ecommerce.model.User;
+import com.ecommerce.dao.AddressDao;	
+import com.ecommerce.dao.ProductDao;
+import com.ecommerce.dao.ShoppingCartDao;
+import com.ecommerce.dao.SmartShopperDao;
+import com.ecommerce.model.Address;
+
 import com.ecommerce.model.reponse.JwtResponse;
 import com.ecommerce.model.reponse.ResponseMessage;
 import com.ecommerce.model.request.LoginForm;
@@ -32,12 +44,14 @@ import com.ecommerce.model.request.SignUpForm;
 import com.ecommerce.repository.RoleRepository;
 import com.ecommerce.repository.UserRepository;
 import com.ecommerce.security.jwt.JwtProvider;
+
  
 
  
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api/ecommerce")
+
 public class AuthRestAPIs {
  
   @Autowired
@@ -54,6 +68,87 @@ public class AuthRestAPIs {
  
   @Autowired
   JwtProvider jwtProvider;
+   
+  @Autowired
+	AddressDao objAddressDAO;
+  
+  @Autowired
+  SmartShopperDao objSmartShopperDao;
+  
+  @Autowired
+  ShoppingCartDao objShoppingCartDao;
+  
+  @Autowired
+  ProductDao objProductDao;
+  
+  @Autowired
+  ServletContext context;
+  
+   Address objAddress ;
+   
+    static User supplier;
+  
+ 
+  
+  
+ // @PostMapping("/addProductServer")
+ // public ResponseEntity<ResponseMessage> saveProductServer(@RequestParam("file") MultipartFile file,@RequestParam("product") String product) throws JsonMappingException, JsonProcessingException,IOException{
+	
+	//  Product objProduct= new ObjectMapper().readValue(product,Product.class);
+	  
+	//  boolean isExist = new File(context.getRealPath("/products/")).exists();
+	//  if(!isExist) {
+	//	  new File(context.getRealPath("/products/")).mkdir();
+	//  }
+	//  String filename = file.getOriginalFilename();
+	//  String modifiedFileName = FilenameUtils.getBaseName(filename)+"_"+System.currentTimeMillis()+"."+FilenameUtils.getExtension(filename);
+	//  File serverfile = new File (context.getRealPath("/product/"+File.separator+modifiedFileName));
+	//  try {
+	//	  FileUtils.writeByteArrayToFile(serverfile, file.getBytes());
+	//  }catch(Exception ex) {
+	//	  ex.printStackTrace();
+	//  }
+	//  objProduct.setFileName(modifiedFileName);
+	 // Product dbProduct = objProductDao.save(objProduct);
+//	 if(dbProduct !=null) {
+	//	  return new ResponseEntity<ResponseMessage> (new ResponseMessage("Product Saved Successfully"), HttpStatus.OK);
+	 // }else {
+	//	  return new ResponseEntity<ResponseMessage> (new ResponseMessage("Product is not saved"), HttpStatus.BAD_REQUEST);  
+	 // }
+	  
+	   
+ // }
+  
+  
+  
+ // @PostMapping("/uploadImage")
+//  public String upLoadImage(@RequestParam("imageFile") MultipartFile imageFile) {
+	//  String returnValue = "";
+	//  try {
+	//	objProductDao.saveImage(imageFile);
+	//} catch (Exception e) {
+	//	// TODO Auto-generated catch block
+//		e.printStackTrace();
+	//}
+//	  return returnValue;
+ // }
+  
+  @PostMapping("/address")
+	public Address createAddress(@Valid @RequestBody Address add) {
+		objAddress =objAddressDAO.save(add);
+	  return objAddress;
+	}
+  
+  @PostMapping("/addSmartShopper")
+	public SmartShopper createSmartShopper(@Valid @RequestBody  SmartShopper objSmartShopper) {
+		return objSmartShopperDao.save(objSmartShopper);
+	}
+
+  @PostMapping("/addShoppingCart")
+ 	public ShoppingCart createShoppingCart(@Valid @RequestBody  ShoppingCart objShoppingCart) {
+ 		return objShoppingCartDao.save(objShoppingCart);
+ 	}
+  
  
   @PostMapping("/signin")
   public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginForm loginRequest) {
@@ -82,6 +177,8 @@ public class AuthRestAPIs {
     }
   
     // Creating user's account
+    
+   
     User user = new User(signUpRequest.getFirstName(), signUpRequest.getSurname(),signUpRequest.getSupplyName(),signUpRequest.getUsername(), signUpRequest.getEmail(),
     		signUpRequest.getContactNumber(), encoder.encode(signUpRequest.getPassword()),signUpRequest.getAddress());
  
@@ -100,7 +197,7 @@ public class AuthRestAPIs {
         Role supplyRole = roleRepository.findByName(RoleName.ROLE_SUPPLIER)
             .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
         roles.add(supplyRole);
- 
+        supplier = user;
         break;
       default:
         Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
@@ -110,6 +207,7 @@ public class AuthRestAPIs {
     });
  
     user.setRoles(roles);
+    user.setAddress(objAddress);
     userRepository.save(user);
     
     return new ResponseEntity<>(new ResponseMessage("User registered successfully!"), HttpStatus.OK);

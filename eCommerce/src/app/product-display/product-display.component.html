@@ -1,0 +1,23 @@
+<div id = "formContainer">
+<div  *ngFor="let product of objTempProduct" class="col-lg-3 col-md-4 col-sm-6" >
+   
+    <label><b>{{product.prodName}}</b></label>
+    <a href="product-order-detail " (click)="setProduct(product.barcode)">
+        <img src= "data:image/png;base64,{{product.logo}}" width="300px;" height="200px;" class="img-responsive"/>
+    </a>
+
+    <p>Barcode : XAERH332WQ {{product.barcode}}</p>
+    <p>Size :  {{product.size}}</p>
+    <p>Price :  R{{product.price}}</p>
+    
+
+    <div  *ngIf="category === 'Drink'" >
+    <p>
+        Category Workings
+    </p>
+    
+    </div>
+    
+
+</div>
+</div>

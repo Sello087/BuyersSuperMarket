@@ -11,6 +11,7 @@ export class RegisterAddress {
         this.street = street;
         this.city = city;
         this.state = state;
+        this.zipCode = zipCode;
        
         
     }

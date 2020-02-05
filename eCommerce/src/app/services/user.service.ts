@@ -1,26 +1,42 @@
+import { SmartShopper } from './smartShopper-info';
+import { ShoppingCart } from './shoppingCart-info';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { RegisterAddress } from './registerAddress-info';
 
 @Injectable({
     providedIn: 'root'
 })
 export class UserService {
-    private userUrl = 'http://localhost:8080/api/test/user';
-    private pmUrl = 'http://localhost:8080/api/test/Supply';
-    private adminUrl = 'http://localhost:8080/api/test/admin';
-   
+    private saveCartUrl = 'http://localhost:8080/api/ecommerce/addShoppingCart';
+    private saveSmartShopperUrl = 'http://localhost:8080/api/ecommerce/addSmartShopper';
+    private saveProductUrl = 'http://localhost:8080/api/ecommerce/addProduct';
+    private saveAddressUrl = 'http://localhost:8080/api/ecommerce/address';
+    private getAllProductsUrl = 'http://localhost:8080/api/ecommerce/getAllProduct';
     constructor(private http: HttpClient) { }
    
-    getUserBoard(): Observable<string> {
-      return this.http.get(this.userUrl, { responseType: 'text' });
+    saveShoppingCart(objShoppingCart: ShoppingCart): Observable<any> {
+      return this.http.post(this.saveCartUrl, objShoppingCart);
     }
    
-    getPMBoard(): Observable<string> {
-      return this.http.get(this.pmUrl, { responseType: 'text' });
+    saveSmartShopper(objSmartShopper: SmartShopper): Observable<any> {
+      return this.http.post(this.saveSmartShopperUrl, objSmartShopper);
     }
    
-    getAdminBoard(): Observable<string> {
-      return this.http.get(this.adminUrl, { responseType: 'text' });
+    saveAddress(objAddress: RegisterAddress): Observable<any> {
+      return this.http.post(this.saveAddressUrl, objAddress );
     }
+
+    saveProduct(objFormdata: FormData): Observable<any> {
+        return this.http.post(this.saveProductUrl, objFormdata );
+      }
+
+      getAllProducts(): Observable<any> {
+        return this.http.get(this.getAllProductsUrl);
+      }
+
+
+      
+
   }

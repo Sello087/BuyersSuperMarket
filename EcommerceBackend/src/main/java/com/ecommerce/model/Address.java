@@ -10,7 +10,6 @@ import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -38,8 +37,7 @@ public class Address {
 	@Column(name ="zipCode")
 	private int zipCode;
 	
-	@OneToMany(cascade=CascadeType.ALL)
-	@JoinColumn(name = "addId")
+	@OneToMany(cascade=CascadeType.ALL, mappedBy= "address")
 	private List<User> user = new ArrayList<>();
 
 	public Address() {
