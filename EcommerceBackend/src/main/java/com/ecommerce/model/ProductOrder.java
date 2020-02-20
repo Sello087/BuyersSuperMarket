@@ -1,6 +1,7 @@
 package com.ecommerce.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -15,16 +16,19 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Entity
 @Table(name = "ProductOrder")
 @EntityListeners(AuditingEntityListener.class)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ProductOrder {
 
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int orderId;
-	private String orderDate;
+	private Date  orderDate;
 	private int qtyOrdered;
 	@ManyToOne
 	@JoinColumn(name="cartId")
@@ -32,25 +36,56 @@ public class ProductOrder {
 	
 	@ManyToOne
 	@JoinColumn(name="barcode")
-	private User objUser;
+	private Product objProduct;
 	
 	@ManyToOne
 	@JoinColumn(name="userId")
-	private Product objProduct;
+	private User objUser;
+	
 	
 	 
 	 @OneToMany(cascade=CascadeType.ALL, mappedBy= "productOrder")
 		private List<Payment> payment= new ArrayList<>();
 
-	 
-	 
-	 public ProductOrder() {
-		super();
-		
-	}
+	 public ProductOrder( ) {
+			super();
+			
+			
+		}
 
+	 
+	 public ProductOrder( int qtyOrdered, Product objProduct) {
+			super();
+			
+			this.qtyOrdered = qtyOrdered;
+			this.objProduct = objProduct;
+			
+		}
+ 
+	 
 
-	public ProductOrder(int orderId, String orderDate, int qtyOrdered, ShoppingCart objShoppingCart,User objUser, Product objProduct,List<Payment> payment) {
+	 public ProductOrder( Date orderDate, int qtyOrdered, ShoppingCart objShoppingCart,User objUser, Product objProduct) {
+			super();
+			
+			this.orderDate = orderDate;
+			this.qtyOrdered = qtyOrdered;
+			this.objShoppingCart = objShoppingCart;
+			this.objUser = objUser;
+			this.objProduct = objProduct;
+			
+		}
+	 public ProductOrder(int orderId, Date orderDate, int qtyOrdered, ShoppingCart objShoppingCart,User objUser, Product objProduct) {
+			super();
+			this.orderId = orderId;
+			this.orderDate = orderDate;
+			this.qtyOrdered = qtyOrdered;
+			this.objShoppingCart = objShoppingCart;
+			this.objUser = objUser;
+			this.objProduct = objProduct;
+			
+		}
+
+	public ProductOrder(int orderId, Date orderDate, int qtyOrdered, ShoppingCart objShoppingCart,User objUser, Product objProduct,List<Payment> payment) {
 		super();
 		this.orderId = orderId;
 		this.orderDate = orderDate;
@@ -66,10 +101,10 @@ public class ProductOrder {
 	public void setOrderId(int orderId) {
 		this.orderId = orderId;
 	}
-	public String getOrderDate() {
+	public Date getOrderDate() {
 		return orderDate;
 	}
-	public void setOrderDate(String orderDate) {
+	public void setOrderDate(Date orderDate) {
 		this.orderDate = orderDate;
 	}
 	public int getQtyOrdered() {

@@ -1,5 +1,78 @@
+
+<div class="card">
+  <h3 class="card-header text-center font-weight-bold text-uppercase py-4">Shopping Cart</h3>
+  <div class="card-body">
+    <div id="table" class="table-editable">
+      <span class="table-add float-right mb-3 mr-2"><a href="#!" class="text-success"><i
+            class="fas fa-plus fa-2x" aria-hidden="true"></i></a></span>
+      <table class="table table-bordered table-responsive-md table-striped text-center">
+        <thead>
+          <tr>
+            <th class="text-center">OrderID</th>
+            <th class="text-center">Date Ordered</th>
+            <th class="text-center">Quantity Oredered</th>
+            <th class="text-center">ShoppingCartID</th>
+            <th class="text-center">UserId</th>
+            <th class="text-center">Barcode</th>
+            <th class="text-center">Edit</th>
+            <th class="text-center">Remove</th> 
+          </tr>
+        </thead>
+        <tbody>
+          <tr  *ngFor="let orders of objAllOrders">
+            <td class="pt-3-half" contenteditable="true">{{orders.orderId}}</td>
+            <td class="pt-3-half" contenteditable="true">{{orders.orderDate}}</td>
+            <td class="pt-3-half" contenteditable="true">{{orders.qtyOrdered}}</td>
+            <td class="pt-3-half" contenteditable="true">{{orders.orderId}}</td>
+            <td class="pt-3-half" contenteditable="true">{{orders.cartId}}</td>
+            <td class="pt-3-half" contenteditable="true">{{orders.barcode}}</td>
+            <td>
+              <span class="table-remove"><button type="button"
+                  class="btn btn-danger btn-rounded btn-sm my-0">Remove</button></span>
+            </td>
+            <td>
+                <span class="table-edit"><button class="btn btn-outline-success btn-sm ">edit</button></span>
+              </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
 <div id = "formContainer">
 
-    
+   
+               
+        <form  name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+                
+<div   class="form-group">
+                <label><b>PLACE ORDER</b></label>
+</div>
+                
+ <div   class="form-group">
+<label><b>Product name : {{product.prodName}}</b></label>
+</div>
+<div   class="form-group">
+<label><b>Product size : {{product.size}}</b></label>                
+</div>                
+ <div   class="form-group">
+ <label><b>Product qty : {{product.qtyInStock}}</b></label>
+</div>
+
+<div   class="form-group">
+<label>Please select how many you want</label>        
+<input type="number"  class="form-control" value="1" data-decimals="2" min="1" max={{product.qtyInStock}} step="1" name="qtyOrdered"  [(ngModel)]="form.qtyOrdered" #qtyOrdered="ngModel" required/>
+</div>
+
+<div class="form-group">
+                <button class="btn btn-primary" type="submit" class="signup">Place Order</button>
+                
+                  </div>
+
+
+</form>
+
+        
 
 </div>

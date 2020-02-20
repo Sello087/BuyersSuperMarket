@@ -1,4 +1,4 @@
-import { Product } from './../services/product-info';
+
 import { DataService } from './../services/data.service';
 import { UserService } from './../services/user.service';
 import { Component, OnInit } from '@angular/core';
@@ -30,16 +30,9 @@ export class ProductDisplayComponent implements OnInit {
       }
     });
 
-
-    
-    
-
   }
 
-  setProduct( barcode: number){
-    this.dataService.barcode = barcode;
-  }
-
+  
 
 
 

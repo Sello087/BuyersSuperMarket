@@ -29,7 +29,6 @@ public class ProductDao {
 	public Product save(Product product) {
 		return objProductRepository.save(product);
 	}
-	
 	public List<Product> findAll(){
 		return objProductRepository.findAll();
 	}

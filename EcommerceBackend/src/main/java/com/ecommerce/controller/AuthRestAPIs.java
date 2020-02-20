@@ -87,6 +87,8 @@ public class AuthRestAPIs {
    Address objAddress ;
    
     static User supplier;
+    static User customer;
+    static ShoppingCart objCart;
   
  
   
@@ -146,7 +148,9 @@ public class AuthRestAPIs {
 
   @PostMapping("/addShoppingCart")
  	public ShoppingCart createShoppingCart(@Valid @RequestBody  ShoppingCart objShoppingCart) {
- 		return objShoppingCartDao.save(objShoppingCart);
+ 		objCart = objShoppingCart;
+	  return objShoppingCartDao.save(objShoppingCart);
+ 		
  	}
   
  
@@ -191,7 +195,7 @@ public class AuthRestAPIs {
         Role adminRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
             .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
         roles.add(adminRole);
- 
+        
         break;
       case "supplier":
         Role supplyRole = roleRepository.findByName(RoleName.ROLE_SUPPLIER)
@@ -203,6 +207,7 @@ public class AuthRestAPIs {
         Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
             .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
         roles.add(userRole);
+        customer	 = user;
       }
     });
  

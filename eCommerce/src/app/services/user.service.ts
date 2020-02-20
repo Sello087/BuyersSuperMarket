@@ -1,10 +1,16 @@
+import { ProductOrder } from './product-order-info';
 import { SmartShopper } from './smartShopper-info';
 import { ShoppingCart } from './shoppingCart-info';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient,HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { RegisterAddress } from './registerAddress-info';
+import { catchError, tap, map } from 'rxjs/operators';
 
+
+const httpOptions = {
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+};
 @Injectable({
     providedIn: 'root'
 })
@@ -14,6 +20,11 @@ export class UserService {
     private saveProductUrl = 'http://localhost:8080/api/ecommerce/addProduct';
     private saveAddressUrl = 'http://localhost:8080/api/ecommerce/address';
     private getAllProductsUrl = 'http://localhost:8080/api/ecommerce/getAllProduct';
+    private placeOderUrl = 'http://localhost:8080/api/ecommerce/addProductOrder';
+    private oneProductUrl = 'http://localhost:8080/api/ecommerce/oneProduct';
+    private allOrdersUrl ='http://localhost:8080/api/ecommerce/getAllOrder';
+
+
     constructor(private http: HttpClient) { }
    
     saveShoppingCart(objShoppingCart: ShoppingCart): Observable<any> {
@@ -31,10 +42,30 @@ export class UserService {
     saveProduct(objFormdata: FormData): Observable<any> {
         return this.http.post(this.saveProductUrl, objFormdata );
       }
-
       getAllProducts(): Observable<any> {
         return this.http.get(this.getAllProductsUrl);
       }
+      
+      saveOrder(objProdOrer: ProductOrder): Observable<any> {
+        return this.http.post(this.placeOderUrl, objProdOrer );
+      }
+
+      
+
+      getOneProduct(barcode: number): Observable<any> {
+        const url = `${this.oneProductUrl}/${barcode}`;
+        return this.http.get<any>(url).pipe(
+          tap(_ => console.log(`fetched product id    =${barcode}`)),
+                );
+      }
+
+      getAllOrders(cartId: number): Observable<any> {
+        const url = `${this.allOrdersUrl}/${cartId}`;
+        return this.http.get<any>(url).pipe(
+          tap(_ => console.log(`fetched product id    =${cartId}`)),
+                );
+      }
+
 
 
       

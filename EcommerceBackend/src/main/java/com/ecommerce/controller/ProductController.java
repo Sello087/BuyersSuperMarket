@@ -1,7 +1,10 @@
 package com.ecommerce.controller;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+import java.util.TimeZone;
 
 import javax.validation.Valid;
 
@@ -38,13 +41,13 @@ public class ProductController {
 	ProductDao objProductDao;
 	@Autowired
 	ProductOrderDao objProductOrderDao;
-	
+	private Product objProduct;
 	
 	
 	 @PostMapping("/addProduct")
 	  public ResponseEntity<ResponseMessage> saveProduct(@RequestParam("file") MultipartFile file,@RequestParam("product") String product) throws JsonMappingException, JsonProcessingException,IOException{
 		
-		  Product objProduct= new ObjectMapper().readValue(product,Product.class);
+		  objProduct= new ObjectMapper().readValue(product,Product.class);
 		  objProduct.setLogo(file.getBytes());
 		  objProduct.setFileName(file.getOriginalFilename());
 		  objProduct.setUser(AuthRestAPIs.supplier);
@@ -58,14 +61,23 @@ public class ProductController {
 		  
 	  }
 	
-	
-	 @GetMapping("/getAllProduct")
+	 @RequestMapping("/getAllProduct")
 	 public List<Product> getAllProduct(){
 		 return objProductDao.findAll();
 	 }
 	 
-	 @GetMapping("/Product/{id}")
-	 public ResponseEntity<Product> getProdById(@PathVariable(value="id") int barcode){
+	 @RequestMapping("/getAllProduct/{cartId}")
+	 public  Optional<ProductOrder> getAllOrders(@PathVariable(value="cartId") int cartId){
+		 
+		 Optional<ProductOrder> objAllOrders =objProductOrderDao.findAll(cartId); 
+		 
+		 return objAllOrders;
+	 }
+	 
+	 
+	 
+	 @GetMapping("/oneProduct/{barcode}")
+	 public ResponseEntity<Product> getProdById(@PathVariable(value="barcode") int barcode){
 		 Product objProduct = objProductDao.findOne(barcode);
 		 if(objProduct==null) {
 			 return ResponseEntity.notFound().build();
@@ -104,7 +116,13 @@ public class ProductController {
 	
 	 @PostMapping("/addProductOrder")
 		public ProductOrder createProductOrder(@Valid @RequestBody ProductOrder objProdOrder) {
-		 return objProductOrderDao.save(objProdOrder);
+		 TimeZone.setDefault(TimeZone.getTimeZone("UTC")); 
+		 ProductOrder objProductOrder = new ProductOrder(objProdOrder.getQtyOrdered(),objProdOrder.getObjProduct());
+		objProductOrder.setObjShoppingCart(AuthRestAPIs.objCart);
+		objProductOrder.setOrderDate(new Date());
+		objProductOrder.setObjUser(AuthRestAPIs.customer);
+		 return objProductOrderDao.save(objProductOrder);
 		}	
+	 
 	 
 }

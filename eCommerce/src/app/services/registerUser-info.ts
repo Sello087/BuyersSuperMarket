@@ -22,7 +22,6 @@ export class RegisterUser {
         this.password = password;
         this.objAddress = objAddress;
         this.role = ['user'];
-        
     }
 
 

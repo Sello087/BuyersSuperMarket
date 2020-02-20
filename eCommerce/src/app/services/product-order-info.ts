@@ -1,11 +1,15 @@
+import { Product } from './full-product-info';
+
 export class ProductOrder{
-    orderDate : string;
-    qtyOrdered : string;
 
-    constructor(orderDate : string,qtyOrdered : string){
+    qtyOrdered : number;
+   objProduct: Product;
 
-        this.orderDate = orderDate;
+    constructor(qtyOrdered : number,objProduct: Product){
+        
         this.qtyOrdered = qtyOrdered;
+        this.objProduct = objProduct;
+
     }
 
 

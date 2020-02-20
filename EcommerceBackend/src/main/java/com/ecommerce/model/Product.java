@@ -19,6 +19,9 @@ import javax.persistence.Table;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -26,12 +29,16 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 @Entity
 @Table(name = "Product")
 @EntityListeners(AuditingEntityListener.class)
+
 @JsonInclude(value = Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
+@JsonAutoDetect(fieldVisibility = Visibility.ANY)
+
 public class Product {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
+	
 	private int barcode;
 	@Column(name ="prodName")
 	private String prodName;
@@ -48,33 +55,38 @@ public class Product {
 	@Column(name ="logo")
 	@Lob
 	private byte[] logo ;
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="userId")
 	private User user;
-	
+	@JsonIgnore
 	 @OneToMany(cascade=CascadeType.ALL,mappedBy="product")
-	  
 	 private List<Promotion> promoList = new ArrayList<>();
 	 
-
+	@JsonIgnore
 	 @OneToMany(cascade=CascadeType.ALL,mappedBy="objProduct")
 	  
 	 private List<ProductOrder> prodOrder = new ArrayList<>();
-
-	 
+	@JsonIgnore
 	 @OneToMany(cascade=CascadeType.ALL, mappedBy= "product")
 		private List<SupplyOrder> supplyOrder= new ArrayList<>();
-
-
 
 	public Product() {
 		super();
 		
 	}
 	
-
+	public Product(int barcode,String prodName, String category, int size, int qtyInStock, double price) {
+		super();
+		this.barcode = barcode;
+		this.prodName = prodName;
+		this.category = category;
+		this.size = size;
+		this.qtyInStock = qtyInStock;
+		this.price = price;
+		
+	}
 	
-
 
 	public Product(String prodName, String category, int size, int qtyInStock, double price, String fileName,
 			byte[] logo) {
@@ -87,6 +99,9 @@ public class Product {
 		this.fileName = fileName;
 		this.logo = logo;
 	}
+
+
+	
 
 
 
@@ -219,24 +234,12 @@ public class Product {
 	}
 
 
-
-
-
 	@Override
 	public String toString() {
 		return "Product [prodName=" + prodName + ", category=" + category + ", size=" + size + ", qtyInStock="
 				+ qtyInStock + ", price=" + price + ", fileName=" + fileName + ", logo=" + Arrays.toString(logo) + "]";
 	}
 
-
-	
-
-
-	
-	
-	
-	
-	
 	
 	
 }

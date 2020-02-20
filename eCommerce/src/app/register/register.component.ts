@@ -59,7 +59,7 @@ export class RegisterComponent implements OnInit {
 
 
 
-
+    
     this.registeraddress = new RegisterAddress(
       this.form.houseNumber,
          this.form.street,
@@ -88,7 +88,8 @@ export class RegisterComponent implements OnInit {
         this.form.username,
         this.form.email,
         this.form.contactNumber,
-        this.form.psw,this.registeraddress);
+        this.form.psw,
+        this.registeraddress);
       
     this.authService.registerCust(this.registerUser).subscribe(
       data => {

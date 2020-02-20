@@ -13,8 +13,8 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent},
   { path: 'product', component: ProductComponent},
   { path: 'product-display', component: ProductDisplayComponent },
-  { path: 'home', component: HomeComponent },
-  { path: 'product-order-detail', component: ProductOrderDetailComponent }
+  { path: 'webHome', component: HomeComponent },
+  { path: 'product-order-detail/:barcode', component: ProductOrderDetailComponent }
 
 ];
 
