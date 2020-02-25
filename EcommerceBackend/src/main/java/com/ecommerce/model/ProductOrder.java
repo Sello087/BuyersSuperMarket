@@ -17,6 +17,7 @@ import javax.persistence.Table;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Entity
 @Table(name = "ProductOrder")
@@ -33,17 +34,17 @@ public class ProductOrder {
 	@ManyToOne
 	@JoinColumn(name="cartId")
 	private ShoppingCart objShoppingCart;
-	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="barcode")
 	private Product objProduct;
-	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="userId")
 	private User objUser;
 	
 	
-	 
+	@JsonIgnore
 	 @OneToMany(cascade=CascadeType.ALL, mappedBy= "productOrder")
 		private List<Payment> payment= new ArrayList<>();
 

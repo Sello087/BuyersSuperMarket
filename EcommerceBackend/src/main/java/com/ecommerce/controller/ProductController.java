@@ -3,7 +3,7 @@ package com.ecommerce.controller;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
+
 import java.util.TimeZone;
 
 import javax.validation.Valid;
@@ -25,18 +25,23 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ecommerce.dao.ProductDao;
 import com.ecommerce.dao.ProductOrderDao;
+import com.ecommerce.dao.ShoppingCartDao;
 import com.ecommerce.model.Product;
 import com.ecommerce.model.ProductOrder;
+import com.ecommerce.model.ShoppingCart;
 import com.ecommerce.model.reponse.ResponseMessage;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
+@CrossOrigin(origins = "http://localhost:4200",allowedHeaders = "*")
 @RestController
 @RequestMapping("/api/ecommerce")
 public class ProductController {
 
+	
+	@Autowired
+ShoppingCartDao objShoppingCartDao;
 	@Autowired
 	ProductDao objProductDao;
 	@Autowired
@@ -66,12 +71,11 @@ public class ProductController {
 		 return objProductDao.findAll();
 	 }
 	 
-	 @RequestMapping("/getAllProduct/{cartId}")
-	 public  Optional<ProductOrder> getAllOrders(@PathVariable(value="cartId") int cartId){
-		 
-		 Optional<ProductOrder> objAllOrders =objProductOrderDao.findAll(cartId); 
-		 
-		 return objAllOrders;
+	 
+	 @GetMapping("/getAllOrder/{cartId}")
+	 public  List<ProductOrder> getAllOrders(@PathVariable(value="cartId") int cartId){
+		 ShoppingCart objShoppingCart = objShoppingCartDao.findOne(cartId);
+		 return objProductOrderDao.findAll(objShoppingCart);
 	 }
 	 
 	 
@@ -104,7 +108,7 @@ public class ProductController {
 	 }
 	
 	@DeleteMapping("/Product/{id}")
-	public ResponseEntity<Product> updateProd(@PathVariable(value="id") int barcode){
+	public ResponseEntity<Product> deleteProd(@PathVariable(value="id") int barcode){
 		Product objProduct = objProductDao.findOne(barcode);
 		if(objProduct==null) {
 			return ResponseEntity.notFound().build();
@@ -118,6 +122,7 @@ public class ProductController {
 		public ProductOrder createProductOrder(@Valid @RequestBody ProductOrder objProdOrder) {
 		 TimeZone.setDefault(TimeZone.getTimeZone("UTC")); 
 		 ProductOrder objProductOrder = new ProductOrder(objProdOrder.getQtyOrdered(),objProdOrder.getObjProduct());
+		 objProductOrder.setObjProduct(objProdOrder.getObjProduct());
 		objProductOrder.setObjShoppingCart(AuthRestAPIs.objCart);
 		objProductOrder.setOrderDate(new Date());
 		objProductOrder.setObjUser(AuthRestAPIs.customer);

@@ -40,7 +40,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
             })
     })
 @EntityListeners(AuditingEntityListener.class)
-@JsonIgnoreProperties(ignoreUnknown = true)
+
 public class User {
 
 	

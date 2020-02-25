@@ -1,6 +1,7 @@
 package com.ecommerce.model;
 
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,14 +17,16 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.NaturalId;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "ShoppingCart")
 @EntityListeners(AuditingEntityListener.class)
-@JsonIgnoreProperties(ignoreUnknown = true)
+
 public class ShoppingCart {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -36,11 +39,14 @@ public class ShoppingCart {
 	private String paymentStatus;
 	@Column(name ="deliveryStatus")
 	private String deliveryStatus;
+	@JsonIgnore 
 	@ManyToOne
 	@JoinColumn(name="userId")
 	private User objUser;
 	
+	
 
+	@JsonIgnore
 	@OneToMany(cascade=CascadeType.ALL, mappedBy= "objShoppingCart")
 	private List<ProductOrder> productOrder = new ArrayList<>();
 
@@ -100,15 +106,9 @@ public class ShoppingCart {
 	public void setProductOrder(List<ProductOrder> productOrder) {
 		this.productOrder = productOrder;
 	}
-
-
-
 	public User getObjUser() {
 		return objUser;
 	}
-
-
-
 	public void setObjUser(User objUser) {
 		this.objUser = objUser;
 	}

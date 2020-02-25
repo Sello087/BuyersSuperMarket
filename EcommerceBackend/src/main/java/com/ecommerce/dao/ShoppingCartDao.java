@@ -16,4 +16,7 @@ public class ShoppingCartDao {
 	public ShoppingCart save(ShoppingCart objShoppingCart) {
 		return objShoppingCartRepository.save(objShoppingCart);
 	}
+	public ShoppingCart findOne(int cartId) {
+		return objShoppingCartRepository.getOne(cartId);
+	}
 }

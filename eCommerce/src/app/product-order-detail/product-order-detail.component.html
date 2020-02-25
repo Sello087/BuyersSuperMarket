@@ -23,8 +23,8 @@
             <td class="pt-3-half" contenteditable="true">{{orders.orderId}}</td>
             <td class="pt-3-half" contenteditable="true">{{orders.orderDate}}</td>
             <td class="pt-3-half" contenteditable="true">{{orders.qtyOrdered}}</td>
-            <td class="pt-3-half" contenteditable="true">{{orders.orderId}}</td>
-            <td class="pt-3-half" contenteditable="true">{{orders.cartId}}</td>
+            <td class="pt-3-half" contenteditable="true">{{orders.objShoppingCart.cartId }}</td>
+            <td class="pt-3-half" contenteditable="true">{{orders.userId}}</td>
             <td class="pt-3-half" contenteditable="true">{{orders.barcode}}</td>
             <td>
               <span class="table-remove"><button type="button"
@@ -44,7 +44,7 @@
 
    
                
-        <form  name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+        <form  name="form" (ngSubmit)="onSubmit()" #f="ngForm" novalidate>
                 
 <div   class="form-group">
                 <label><b>PLACE ORDER</b></label>
@@ -68,6 +68,40 @@
 <div class="form-group">
                 <button class="btn btn-primary" type="submit" class="signup">Place Order</button>
                 
+                  </div>
+
+
+                  <div id = "cart" class="row col-sm-12" style="max-width:350px;align-self: center ;display: inline-block">
+                  
+                      <label> Ecommerce Custoomer Details:  Price </label>   
+                    <div class="cartUpInner">
+                        <label>Delivery Method</label>
+                        <select class="browser-default custom-select">
+                            <option selected>Please Delivery Method</option>
+                            <option value="1">Collection</option>
+                            <option value="2">Delivery</option>
+                          </select>
+
+                          </div>
+                          <div class="cartlowerInner">
+                            <label>Delivery Status</label>
+                            <select class="browser-default custom-select">
+                              <option selected>Please Select Delivery Status</option>
+                              <option value="1">Not Delivered</option>
+                              <option value="2">Delivered</option>
+                            </select>
+                    </div>
+                    <div class = "cartLower">
+                        <label>Payment Status</label>
+                        <select class="browser-default custom-select">
+                            <option selected>Please Select Payment Status</option>
+                            <option value="1">Paid</option>
+                            <option value="2">Outstanding</option>
+                          </select>
+
+                    </div>
+
+
                   </div>
 
 

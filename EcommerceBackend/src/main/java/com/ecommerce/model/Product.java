@@ -30,9 +30,9 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 @Table(name = "Product")
 @EntityListeners(AuditingEntityListener.class)
 
-@JsonInclude(value = Include.NON_NULL)
+
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonAutoDetect(fieldVisibility = Visibility.ANY)
+
 
 public class Product {
 
@@ -59,15 +59,15 @@ public class Product {
 	@ManyToOne
 	@JoinColumn(name="userId")
 	private User user;
-	@JsonIgnore
+	
 	 @OneToMany(cascade=CascadeType.ALL,mappedBy="product")
 	 private List<Promotion> promoList = new ArrayList<>();
 	 
-	@JsonIgnore
+	 @JsonIgnore
 	 @OneToMany(cascade=CascadeType.ALL,mappedBy="objProduct")
 	  
 	 private List<ProductOrder> prodOrder = new ArrayList<>();
-	@JsonIgnore
+	 @JsonIgnore
 	 @OneToMany(cascade=CascadeType.ALL, mappedBy= "product")
 		private List<SupplyOrder> supplyOrder= new ArrayList<>();
 

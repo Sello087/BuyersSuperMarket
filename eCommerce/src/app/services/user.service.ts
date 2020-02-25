@@ -35,6 +35,8 @@ export class UserService {
       return this.http.post(this.saveSmartShopperUrl, objSmartShopper);
     }
    
+
+    
     saveAddress(objAddress: RegisterAddress): Observable<any> {
       return this.http.post(this.saveAddressUrl, objAddress );
     }
@@ -61,13 +63,13 @@ export class UserService {
 
       getAllOrders(cartId: number): Observable<any> {
         const url = `${this.allOrdersUrl}/${cartId}`;
-        return this.http.get<any>(url).pipe(
-          tap(_ => console.log(`fetched product id    =${cartId}`)),
+        return this.http.get(url).pipe(
+          tap(_ => console.log(`fetched cart  =${cartId}`)),
                 );
       }
 
 
 
-      
+
 
   }

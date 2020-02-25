@@ -1,3 +1,4 @@
+import { ShoppingCart } from './../services/shoppingCart-info';
 import { ProductOrder } from './../services/product-order-info';
 
 import { Product } from './../services/full-product-info';
@@ -19,6 +20,7 @@ export class ProductOrderDetailComponent implements OnInit {
   errorMessage = '';
   product : Product;
   objFullProductOrder : FullProductOrder;
+  objUser : any;
   
   
 
@@ -31,12 +33,12 @@ isLoadingResults = true;
 
   ngOnInit() {
      this.getProductDetails(this.route.snapshot.params['barcode']);
-     this.getAllOrders(this.objFullProductOrder.objShoppingCart.cartId);
+     
 
     }
 
-    getProductDetails(id) {
-      this.userService.getOneProduct(id)
+    getProductDetails(ShoppingCart) {
+      this.userService.getOneProduct(ShoppingCart)
         .subscribe(data => {
           this.product = data;
 
@@ -50,7 +52,7 @@ isLoadingResults = true;
           this.userService.getAllOrders(id)
             .subscribe(data => {
               this.objAllOrders = data;
-    
+
               console.log(this.objAllOrders);
               this.isLoadingResults = false;
             });
@@ -68,7 +70,8 @@ isLoadingResults = true;
     this.userService.saveOrder(this.objProductOrder).subscribe((data) =>{
       console.log(data);
 this.objFullProductOrder = data;
-         
+this.getAllOrders(this.objFullProductOrder.objShoppingCart.cartId);
+this.objUser = this.objFullProductOrder.objUser;
        },
        error => {
         console.log(error);
@@ -76,7 +79,7 @@ this.objFullProductOrder = data;
 
       }
     );
-
+  
 
   }
 
