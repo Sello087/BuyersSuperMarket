@@ -20,6 +20,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,8 +37,9 @@ import com.ecommerce.dao.AddressDao;
 import com.ecommerce.dao.ProductDao;
 import com.ecommerce.dao.ShoppingCartDao;
 import com.ecommerce.dao.SmartShopperDao;
+import com.ecommerce.dao.UserDetailsDao;
 import com.ecommerce.model.Address;
-
+import com.ecommerce.model.Product;
 import com.ecommerce.model.reponse.JwtResponse;
 import com.ecommerce.model.reponse.ResponseMessage;
 import com.ecommerce.model.request.LoginForm;
@@ -54,6 +57,9 @@ import com.ecommerce.security.jwt.JwtProvider;
 
 public class AuthRestAPIs {
  
+  @Autowired
+  UserDetailsDao objUserDetailDao;
+  
   @Autowired
   AuthenticationManager authenticationManager;
  
@@ -217,4 +223,8 @@ public class AuthRestAPIs {
     
     return new ResponseEntity<>(new ResponseMessage("User registered successfully!"), HttpStatus.OK);
   }
+  
+  
+  
+  
 }

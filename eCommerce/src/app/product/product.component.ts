@@ -1,7 +1,7 @@
-import { UserService } from './../services/user.service';
-import { Product } from './../services/product-info';
+import { UserService } from '../services/user.service';
+import { Product } from '../services/product-info';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '../../../node_modules/@angular/forms';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-product',

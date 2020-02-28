@@ -29,6 +29,7 @@ import com.ecommerce.dao.ShoppingCartDao;
 import com.ecommerce.model.Product;
 import com.ecommerce.model.ProductOrder;
 import com.ecommerce.model.ShoppingCart;
+import com.ecommerce.model.User;
 import com.ecommerce.model.reponse.ResponseMessage;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -74,8 +75,17 @@ ShoppingCartDao objShoppingCartDao;
 	 
 	 @GetMapping("/getAllOrder/{cartId}")
 	 public  List<ProductOrder> getAllOrders(@PathVariable(value="cartId") int cartId){
+		 
 		 ShoppingCart objShoppingCart = objShoppingCartDao.findOne(cartId);
-		 return objProductOrderDao.findAll(objShoppingCart);
+		 List<ProductOrder> objPodOrder =objProductOrderDao.findAll(objShoppingCart);
+		 for(int i=0 ;i<objPodOrder.size();i++) {
+			 
+		 }
+		 User objUser = objPodOrder.get(0).getObjUser();
+		 
+		 
+ 		 
+		 return objPodOrder ;
 	 }
 	 
 	 
@@ -129,5 +139,29 @@ ShoppingCartDao objShoppingCartDao;
 		 return objProductOrderDao.save(objProductOrder);
 		}	
 	 
+	 
+	 @GetMapping("/getAllCatProducts/{category}")
+	 public  List<Product> getAllCatProducts(@PathVariable(value="category") String category){
+		 return objProductDao.findAllCatProduct(category);
+	 }
+	 
+	 
+	 @PutMapping("/updateShoppingCart")
+	 public ResponseEntity<ShoppingCart> updateShoppingCart( @Valid @RequestBody ShoppingCart objShoppingCart){
+
+		 ShoppingCart shoppingCart = objShoppingCartDao.findOne(objShoppingCart.getCartId());
+		 if (shoppingCart==null) {
+			 return ResponseEntity.notFound().build();
+		 }
+		 
+		shoppingCart.setDeliveryMethod(objShoppingCart.getDeliveryMethod());
+		shoppingCart.setDeliveryStatus(objShoppingCart.getDeliveryStatus());
+		shoppingCart.setDeliveryMethod(objShoppingCart.getPaymentStatus());
+		shoppingCart.setTotalPrice(objShoppingCart.getTotalPrice());
+		 
+		  ShoppingCart updateShoppingCart =objShoppingCartDao.save(shoppingCart);	 
+		 return ResponseEntity.ok().body(updateShoppingCart);
+	 }
+	
 	 
 }

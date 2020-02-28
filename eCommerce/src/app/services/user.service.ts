@@ -1,6 +1,7 @@
 import { ProductOrder } from './product-order-info';
 import { SmartShopper } from './smartShopper-info';
 import { ShoppingCart } from './shoppingCart-info';
+import { FullShoppingCart } from './full-shopping-cart-info';
 import { Injectable } from '@angular/core';
 import { HttpClient,HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -23,6 +24,8 @@ export class UserService {
     private placeOderUrl = 'http://localhost:8080/api/ecommerce/addProductOrder';
     private oneProductUrl = 'http://localhost:8080/api/ecommerce/oneProduct';
     private allOrdersUrl ='http://localhost:8080/api/ecommerce/getAllOrder';
+    private updateShoppingCartUrl ='http://localhost:8080/api/ecommerce/updateShoppingCart';
+    private getOneUserUrl ='http://localhost:8080/api/ecommerce/oneUser';
 
 
     constructor(private http: HttpClient) { }
@@ -68,6 +71,23 @@ export class UserService {
                 );
       }
 
+
+
+ updateShoppingCart(objShoppingCart : FullShoppingCart): Observable<any> {
+        
+        return this.http.put(this.updateShoppingCartUrl,objShoppingCart).pipe(
+          tap(_ => console.log(`Updating cart `)),
+                );
+      }
+
+
+
+      getOneUser(username: string): Observable<any> {
+        const url = `${this. getOneUserUrl}/${username}`;
+        return this.http.get<any>(url).pipe(
+          tap(_ => console.log(`fetched User with usernanme:${username}`)),
+                );
+      }
 
 
 

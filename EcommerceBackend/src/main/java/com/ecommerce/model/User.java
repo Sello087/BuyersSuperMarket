@@ -105,6 +105,17 @@ public class User {
 		
 	}
 	
+	public User(int userId,String firstName,String surname, String username, String email, String contactNumber) {
+		super();
+		this.userId = userId;
+        this.firstName = firstName;
+        this.surname = surname;
+        this.username = username;
+        this.email = email;
+        this.contactNumber = contactNumber;
+      
+    }
+
 
 	public User(int userId, String firstName, String surname, String supplyName,
 			 @Size(min = 3, max = 50) String username,  @Size(max = 50) String email,
@@ -127,10 +138,12 @@ public class User {
 		this.shoppingCart = shoppingCart;
 		
 	}
-
+	
+	
 
 	public User(String firstName,String surname,String supplyName, String username, String email, String contactNumber,String password,Address address) {
-        this.supplyName= supplyName;
+		super();
+		this.supplyName= supplyName;
         this.firstName = firstName;
         this.surname = surname;
         this.username = username;

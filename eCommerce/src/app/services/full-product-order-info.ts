@@ -1,4 +1,4 @@
-import { RegisterUser } from './registerUser-info';
+import {User } from './full-user-info';
 import { Product } from './full-product-info';
 import { FullShoppingCart } from './full-shopping-cart-info';
 
@@ -8,11 +8,11 @@ export class FullProductOrder{
     orderDate : Date;
     qtyOrdered : number;
     objShoppingCart : FullShoppingCart;
-    objUser : RegisterUser;
+    objUser : User;
    objProduct: Product; 
 
 
-    constructor(orderId : number, orderDate : Date,qtyOrdered : number,objShoppingCart : FullShoppingCart,objUser : RegisterUser,objProduct: Product){
+    constructor(orderId : number, orderDate : Date,qtyOrdered : number,objShoppingCart : FullShoppingCart,objUser : User,objProduct: Product){
         this.orderId = orderId;
         this.orderDate = orderDate;
         this.qtyOrdered = qtyOrdered;

@@ -1,5 +1,5 @@
 export class ShoppingCart{
-    totalPrice: Number;
+    totalPrice: number;
     deliveryMetthod: string;
     paymentStatus: string;
     deliveryStatus: string;

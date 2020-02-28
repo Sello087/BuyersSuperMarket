@@ -1,6 +1,6 @@
-import { SmartShopper } from './../services/smartShopper-info';
-import { UserService } from './../services/user.service';
-import { TokenStorageService } from './../services/token-storage.service';
+import { SmartShopper } from '../services/smartShopper-info';
+import { UserService } from '../services/user.service';
+import { TokenStorageService } from '../services/token-storage.service';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 

@@ -19,10 +19,11 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 @Entity
 @Table(name = "ProductOrder")
 @EntityListeners(AuditingEntityListener.class)
-@JsonIgnoreProperties(ignoreUnknown = true)
+
 public class ProductOrder {
 
 	
@@ -34,11 +35,11 @@ public class ProductOrder {
 	@ManyToOne
 	@JoinColumn(name="cartId")
 	private ShoppingCart objShoppingCart;
-	@JsonIgnore
+	
 	@ManyToOne
 	@JoinColumn(name="barcode")
 	private Product objProduct;
-	@JsonIgnore
+	
 	@ManyToOne
 	@JoinColumn(name="userId")
 	private User objUser;
@@ -49,9 +50,7 @@ public class ProductOrder {
 		private List<Payment> payment= new ArrayList<>();
 
 	 public ProductOrder( ) {
-			super();
-			
-			
+			super();	
 		}
 
 	 
@@ -65,6 +64,7 @@ public class ProductOrder {
  
 	 
 
+	 @JsonIgnore
 	 public ProductOrder( Date orderDate, int qtyOrdered, ShoppingCart objShoppingCart,User objUser, Product objProduct) {
 			super();
 			
@@ -86,6 +86,7 @@ public class ProductOrder {
 			
 		}
 
+	 @JsonIgnore
 	public ProductOrder(int orderId, Date orderDate, int qtyOrdered, ShoppingCart objShoppingCart,User objUser, Product objProduct,List<Payment> payment) {
 		super();
 		this.orderId = orderId;
@@ -120,9 +121,11 @@ public class ProductOrder {
 	public void setObjShoppingCart(ShoppingCart objShoppingCart) {
 		this.objShoppingCart = objShoppingCart;
 	}
+	
 	public User getObjUser() {
 		return objUser;
 	}
+	
 	public void setObjUser(User objUser) {
 		this.objUser = objUser;
 	}

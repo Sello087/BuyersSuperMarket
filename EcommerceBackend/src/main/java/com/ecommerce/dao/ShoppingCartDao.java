@@ -18,5 +18,8 @@ public class ShoppingCartDao {
 	}
 	public ShoppingCart findOne(int cartId) {
 		return objShoppingCartRepository.getOne(cartId);
+		
 	}
+	
+	
 }

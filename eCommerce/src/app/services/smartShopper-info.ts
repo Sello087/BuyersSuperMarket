@@ -1,4 +1,4 @@
-import { RegisterUser } from '../services/registerUser-info';
+import { RegisterUser } from './registerUser-info';
 
 export class SmartShopper{
 

@@ -25,4 +25,10 @@ public class UserDetailsDao implements UserDetailsService {
  
     return UserPrinciple.build(user);
   }
+  
+  public User findOneUser(int id) {
+	 
+	  return userRepository.getOne(id);
+	  
+	    }
 }

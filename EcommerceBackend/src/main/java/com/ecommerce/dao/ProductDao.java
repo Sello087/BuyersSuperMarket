@@ -40,5 +40,10 @@ public class ProductDao {
 		objProductRepository.delete(objprod);
 	}
 	
+	
+	public List<Product> findAllCatProduct(String objCategory ){
+		return objProductRepository.findByCategory(objCategory);
+	}
+	
 
 }

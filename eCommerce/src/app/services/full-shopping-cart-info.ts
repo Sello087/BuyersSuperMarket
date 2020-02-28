@@ -1,11 +1,11 @@
 export class FullShoppingCart{
     cartId: number;
-    totalPrice: Number;
+    totalPrice: number;
     deliveryMethod: string;
     paymentStatus: string;
     deliveryStatus: string;
 
-    constructor(cartId: number,totalPrice: Number,deliveryMethod: string,paymentStatus: string,deliveryStatus: string ){
+    constructor(cartId: number,totalPrice: number,deliveryMethod: string,paymentStatus: string,deliveryStatus: string ){
 
         this.cartId = cartId
         this.totalPrice = totalPrice;
@@ -14,4 +14,5 @@ export class FullShoppingCart{
         this.deliveryStatus = deliveryStatus;
         
     }
-}
+
+}   

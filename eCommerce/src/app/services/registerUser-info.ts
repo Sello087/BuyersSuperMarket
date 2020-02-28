@@ -1,4 +1,4 @@
-import { RegisterAddress } from '../services/registerAddress-info';
+import { RegisterAddress } from './registerAddress-info';
 
 export class RegisterUser {
     firstName: string;
