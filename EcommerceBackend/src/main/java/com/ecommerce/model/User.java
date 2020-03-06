@@ -26,6 +26,7 @@ import javax.validation.constraints.Size;
 import org.hibernate.annotations.NaturalId;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
@@ -72,30 +73,32 @@ public class User {
 	
 	@Column(name ="password")
 	private String password;
-
+	 @JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="addId")
 	private Address address;
+	 
+	 @JsonIgnore
 	 @ManyToMany(fetch = FetchType.LAZY)
 	    @JoinTable(name = "user_roles", 
 	      joinColumns = @JoinColumn(name = "user_id"), 
 	      inverseJoinColumns = @JoinColumn(name = "role_id"))
 	    private Set<Role> roles = new HashSet<>();
-	
+	 @JsonIgnore
 	 @OneToMany(cascade=CascadeType.ALL,mappedBy="user")
 	  
 	 private List<Product> prodList = new ArrayList<>();
-	 
+	 @JsonIgnore
 	 @OneToMany(cascade=CascadeType.ALL, mappedBy= "objUser")
 		private List<SmartShopper> smartShopper = new ArrayList<>();
-	 
+	 @JsonIgnore
 	 @OneToMany(cascade=CascadeType.ALL, mappedBy= "objUser")
 		private List<ShoppingCart> shoppingCart = new ArrayList<>();
-	 
+	 @JsonIgnore
 	 @OneToMany(cascade=CascadeType.ALL, mappedBy= "objUser")
 		private List<ProductOrder> productOrder= new ArrayList<>();
 
-	 
+	 @JsonIgnore	
 	 @OneToMany(cascade=CascadeType.ALL, mappedBy= "user")
 		private List<SupplyOrder> supplyOrder= new ArrayList<>();
 

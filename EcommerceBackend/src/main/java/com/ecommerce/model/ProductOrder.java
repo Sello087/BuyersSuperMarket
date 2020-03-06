@@ -39,7 +39,7 @@ public class ProductOrder {
 	@ManyToOne
 	@JoinColumn(name="barcode")
 	private Product objProduct;
-	
+	 
 	@ManyToOne
 	@JoinColumn(name="userId")
 	private User objUser;
@@ -64,7 +64,7 @@ public class ProductOrder {
  
 	 
 
-	 @JsonIgnore
+	 
 	 public ProductOrder( Date orderDate, int qtyOrdered, ShoppingCart objShoppingCart,User objUser, Product objProduct) {
 			super();
 			
@@ -86,7 +86,7 @@ public class ProductOrder {
 			
 		}
 
-	 @JsonIgnore
+
 	public ProductOrder(int orderId, Date orderDate, int qtyOrdered, ShoppingCart objShoppingCart,User objUser, Product objProduct,List<Payment> payment) {
 		super();
 		this.orderId = orderId;

@@ -20,7 +20,7 @@ import { FormBuilder,Validators,FormGroup } from '@angular/forms';
 })
 export class ProductOrderDetailComponent implements OnInit {
   private objAllOrders : Array<any>;
-  form: any = {};
+  
   objProductOrder : ProductOrder;
   errorMessage = '';
   product : Product;
@@ -29,7 +29,11 @@ export class ProductOrderDetailComponent implements OnInit {
   objOrderPrice: number;
   objUsernanme: string;
   orderForm:FormGroup;
+  modalForm:FormGroup;
   qtyOrder: number;
+  authority : string;
+  private roles: string[];
+
   
 
 
@@ -41,13 +45,46 @@ isLoadingResults = true;
 
   ngOnInit() {
 
+    this.modalForm = this.fb.group({
+      houseNumer:  ['', []], 
+      street:  ['', []],
+      city:  ['', []],
+      state:  ['', []],
+      zipCode:  ['', []]
+     });
+
     this.orderForm = this.fb.group({
       username:  ['', []], 
-      qtyOrdered:  ['', []]
+      qtyOrdered:  [0, []]
      }); 
 
       this.orderForm.controls['username'].setValue(this.objToken.getUsername());
      this.getProductDetails(this.route.snapshot.params['barcode']);
+ 
+     
+
+    
+    if (this.objToken.getToken()) {
+      this.roles = this.objToken.getAuthorities();
+      this.roles.every(role => {
+        if (role === 'ROLE_ADMIN') {
+          this.authority = 'admin';
+     
+          return false;
+        } else if (role === 'ROLE_SUPPLIER') {
+          this.authority = 'supplier';
+     
+          return false;
+          
+        }
+        this.authority = 'user';
+     
+        return true;
+        
+      });
+    }
+
+
       
      
     }
@@ -90,12 +127,26 @@ this.objOrderPrice = Math.floor( this.qtyOrder* this.product.price);
   }
 
 
+  initializeAll(){
+
+    this.objProductOrder =null;
+    this.errorMessage = '';
+    this.product =null;
+    this.objFullProductOrder =null;
+  
+  
+    this.orderForm= null;
+    this.qtyOrder= 0;
+  
+  
+  }
+
 
   onSubmit() {
 
   
     
-    this.qtyOrder  =this.orderForm.controls['qtyOrdered'].value;
+   this.qtyOrder  =this.orderForm.controls['qtyOrdered'].value;
     this.objUsernanme = this.orderForm.controls['username'].value;
     
     
@@ -115,6 +166,8 @@ this.objUser = this.objFullProductOrder.objUser;
 this.objOrderPrice =  this.objFullProductOrder.objShoppingCart.totalPrice+ this.objOrderPrice;
 this.objFullProductOrder.objShoppingCart.totalPrice= this.objOrderPrice;
 this.udateShoppingCart(this.objFullProductOrder.objShoppingCart);
+
+
 
        },
        error => {

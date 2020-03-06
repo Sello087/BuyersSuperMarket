@@ -4,6 +4,7 @@ package com.ecommerce.controller;
 
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.servlet.ServletContext;
@@ -224,7 +225,10 @@ public class AuthRestAPIs {
     return new ResponseEntity<>(new ResponseMessage("User registered successfully!"), HttpStatus.OK);
   }
   
-  
+  @GetMapping("/oneUser/{username}")
+  public Optional<User> findOneUser(@PathVariable(value="username") String username){
+	  return userRepository.findByUsername(username);
+  }
   
   
 }

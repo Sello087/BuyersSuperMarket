@@ -1,5 +1,7 @@
 package com.ecommerce.dao;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -26,9 +28,9 @@ public class UserDetailsDao implements UserDetailsService {
     return UserPrinciple.build(user);
   }
   
-  public User findOneUser(int id) {
+  public Optional<User> findOneUser(String username) {
 	 
-	  return userRepository.getOne(id);
+	  return userRepository.findByUsername(username);
 	  
 	    }
 }
