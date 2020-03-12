@@ -1,11 +1,61 @@
+<div class="modal" id="myModal">
+        
+        <div class="modal-dialog">
+          <div class="modal-content">
+      
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title">Add Product {{objProduct.prodName}} To Cart</h4>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+      
+            <!-- Modal body -->
+            <div class="modal-body">
+      
+                  
+
+                        
+
+                            <div   class="form-group">
+                                    <img src= "data:image/png;base64,{{objProduct.logo}}" width="300px;" height="200px;" class="img-responsive"/>
+                                    </div>
+                                    <div   class="form-group">
+                                    <label><b>Product size : {{objProduct.size}}</b></label>                
+                                    </div>                
+                                     <div   class="form-group">
+                                     <label><b>Product qty : {{objProduct.qtyInStock}}</b></label>
+                                    </div>
+                   
+            
+                                    <div   class="form-group">
+                                            <label>Please select how many you want</label>        
+                                            <input  type="number" value="1" data-decimals="2" min="1" max={{objProduct.qtyInStock}} step="1" name="qtyOrdered"     required/>
+                                           
+                                        </div>
+      
+            </div>
+      
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal" type="submit">Add to Cart</button>
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+      
+          </div>
+        </div>
+    
+      </div>
+
+
+
 <div id = "formContainer">
-<div  *ngFor="let product of objTempProduct" class="col-lg-3 col-md-4 col-sm-6" >
-   
+
+ <div class="row">  
+        <div  *ngFor="let product of objProducts" class="col-lg-3 col-md-4 col-sm-6" >
 
 
     <label><b>{{product.prodName}}</b></label>
-    <a [routerLink]="['/product-order-detail',product.barcode]"
-    (click)="setProduct(product)">
+    <a [routerLink]="['/product-order-detail',product.barcode]">
         <img src= "data:image/png;base64,{{product.logo}}" width="300px;" height="200px;" class="img-responsive"/>
     </a>
 
@@ -17,12 +67,10 @@
     <p>Size :  {{product.size}}</p>
     <p>Price :  R{{product.price}}</p>
     
-    <div  *ngIf="category === 'Drink'" >
-    <p>
-        Category Workings
-    </p>
-    
-    </div>
+ <button data-toggle="modal" data-target="#myModal"  class="btn btn-primary"  (click)= "setProduct(product)">ADD TO CART</button>
+
+</div>
+
     
 
 </div>

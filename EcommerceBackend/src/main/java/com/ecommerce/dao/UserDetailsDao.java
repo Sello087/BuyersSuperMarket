@@ -33,4 +33,9 @@ public class UserDetailsDao implements UserDetailsService {
 	  return userRepository.findByUsername(username);
 	  
 	    }
+  public User findByUserId(int userId) {
+		 
+	  return userRepository.getOne(userId);
+	  
+	    }
 }

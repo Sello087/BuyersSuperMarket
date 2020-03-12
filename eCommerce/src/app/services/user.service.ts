@@ -25,8 +25,9 @@ export class UserService {
     private oneProductUrl = 'http://localhost:8080/api/ecommerce/oneProduct';
     private allOrdersUrl ='http://localhost:8080/api/ecommerce/getAllOrder';
     private updateShoppingCartUrl ='http://localhost:8080/api/ecommerce/updateShoppingCart';
-    private getOneUserUrl ='http://localhost:8080/api/ecommerce/oneUser';
-
+    private getOneUserUrl ='http://localhost:8080/api/ecommerce/getAddress';
+    private updateAddressUrl ='http://localhost:8080/api/ecommerce/updateAddress';
+  private getProdByCategoryUrl ='http://localhost:8080/api/ecommerce/getAllCatProducts';
 
     constructor(private http: HttpClient) { }
    
@@ -82,14 +83,39 @@ export class UserService {
 
 
 
-      getOneUser(username: string): Observable<any> {
-        const url = `${this. getOneUserUrl}/${username}`;
+      getOneUser(userId : number): Observable<any> {
+        const url = `${this. getOneUserUrl}/${userId}`;
         return this.http.get<any>(url).pipe(
-          tap(_ => console.log(`fetched User with usernanme:${username}`)),
+          tap(_ => console.log(`fetched User with userId:${userId}`)),
                 );
       }
 
 
+      
+ updateAddress(objAddress : RegisterAddress): Observable<any> {
+        
+  return this.http.put(this.updateAddressUrl,objAddress).pipe(
+    tap(_ => console.log(`Updating address `)),
+          );
+}
+
+
+getProdByCategory(category: string){
+
+
+  if(category=="All"){
+    return this.http.get(this.getAllProductsUrl);
+  }else{
+
+    const url = `${this.getProdByCategoryUrl}/${category}`;
+    return this.http.get<any>(url).pipe(
+      tap(_ => console.log(`fetched Products with category :${category}`)),
+            );
+  
+
+  }
+ 
+}
 
 
   }

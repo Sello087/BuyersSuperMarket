@@ -24,7 +24,10 @@
         </a>
         <div  class="dropdown-menu" aria-labelledby="navbarDropdown" >
 
-          <a *ngFor="let product of objProducts" class="dropdown-item"  routerLink="product-display" >{{product.category}}</a>
+          <button class="dropdown-item"  (click)='navigatePage("All")'>All Products...</button>
+          
+          
+          <button type="submit"  *ngFor="let product of objProducts" class="dropdown-item"  (click)="navigatePage(product.category)">{{product.category}}</button>
           
         </div>
 

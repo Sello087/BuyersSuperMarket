@@ -4,6 +4,7 @@ import { LoginComponent } from './login/login.component';
 import { Component , OnInit } from '@angular/core';
 import { TokenStorageService } from './services/token-storage.service';
 import { UserService } from './services/user.service';
+import {  Router } from '@angular/router'
 
  
 
@@ -24,10 +25,10 @@ export class AppComponent implements OnInit {
  private objProducts : Array<any>;
  selectedCat: string = '';
 
-  constructor(private tokenStorage: TokenStorageService,private objUserService : UserService,private dataService: DataService) { }
+  constructor(private tokenStorage: TokenStorageService,private objUserService : UserService,private dataService: DataService,private router: Router) { }
  
   ngOnInit() {
-        
+
 
    this.dataService.category =  this.form.category;
     this.objUserService.getAllProducts().subscribe(data => {
@@ -66,15 +67,14 @@ export class AppComponent implements OnInit {
     this.isLoggedIn = false;
   }
 
-  selectedCategory(event : any){
-    this.selectedCat = event.target.value;
-    //this.dataService.category = this.selectedCat;
-
+  navigatePage(category){
+    
+    this.router.navigate(['/product-display',category]);
+    location.assign("http://localhost:4200/product-display/"+category);
   }
 
-  selectedCategoryName(category : string){
-    this.dataService.category = category;
-  }
+  
+
      
  
 }

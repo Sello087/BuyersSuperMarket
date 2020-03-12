@@ -15,6 +15,8 @@ import javax.persistence.Table;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 
 @Entity
@@ -36,7 +38,7 @@ public class Address {
 	private String state;
 	@Column(name ="zipCode")
 	private int zipCode;
-	
+	 @JsonIgnore
 	@OneToMany(cascade=CascadeType.ALL, mappedBy= "address")
 	private List<User> user = new ArrayList<>();
 

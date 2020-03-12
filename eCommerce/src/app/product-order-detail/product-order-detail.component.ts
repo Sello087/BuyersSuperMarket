@@ -10,6 +10,7 @@ import { FullProductOrder } from '../services/full-product-order-info';
 import { User } from '../services/full-user-info';
 import { TokenStorageService } from '../services/token-storage.service';
 import { FormBuilder,Validators,FormGroup } from '@angular/forms';
+import { RegisterAddress } from '../services/registerAddress-info';
 
 
 
@@ -26,6 +27,7 @@ export class ProductOrderDetailComponent implements OnInit {
   product : Product;
   objFullProductOrder : FullProductOrder;
   objUser : User;
+  objTempUser : User;
   objOrderPrice: number;
   objUsernanme: string;
   orderForm:FormGroup;
@@ -33,6 +35,9 @@ export class ProductOrderDetailComponent implements OnInit {
   qtyOrder: number;
   authority : string;
   private roles: string[];
+  objAddress :  RegisterAddress;
+  street : string;
+  
 
   
 
@@ -46,16 +51,17 @@ isLoadingResults = true;
   ngOnInit() {
 
     this.modalForm = this.fb.group({
-      houseNumer:  ['', []], 
-      street:  ['', []],
-      city:  ['', []],
-      state:  ['', []],
-      zipCode:  ['', []]
+     
      });
 
     this.orderForm = this.fb.group({
       username:  ['', []], 
-      qtyOrdered:  [0, []]
+      qtyOrdered:  [0, []],
+      houseNumber:  ['', []], 
+      street:  ['', []],
+      city:  ['', []],
+      state:  ['', []],
+      zipCode:  ['', []]
      }); 
 
       this.orderForm.controls['username'].setValue(this.objToken.getUsername());
@@ -102,6 +108,19 @@ isLoadingResults = true;
   }
 
 
+  updateAddress(id) {
+
+    this.objAddress.houseNumber  =this.orderForm.controls['houseNumber'].value;
+   this.objAddress.street  =this.orderForm.controls['street'].value;
+   this.objAddress.city  =this.orderForm.controls['city'].value;
+    this.objAddress.state  =this.orderForm.controls['state'].value;
+  this.objAddress.zipCode  =this.orderForm.controls['zipCode'].value;
+
+    this.userService.updateAddress(id)
+      .subscribe(data => {
+       console.log(data);
+      });
+    }
 
  udateShoppingCart(id) {
           this.userService.updateShoppingCart(id)
@@ -110,6 +129,24 @@ isLoadingResults = true;
             });
           }
 
+
+          findAdrress(id) {
+            this.userService.getOneUser(id)
+              .subscribe(data => {
+                this.objAddress = data;
+
+                
+                this.orderForm.controls['street'].setValue(this.objAddress.street);      
+  
+                this.orderForm.controls['houseNumber'].setValue(this.objAddress.houseNumber);
+    
+    this.orderForm.controls['city'].setValue(this.objAddress.city);
+    this.orderForm.controls['state'].setValue(this.objAddress.state);
+    this.orderForm.controls['zipCode'].setValue(this.objAddress.zipCode);
+                console.log(this.objAddress);
+                
+              });
+            }
 
    getAllOrders(id) {
           this.userService.getAllOrders(id)
@@ -120,11 +157,13 @@ isLoadingResults = true;
               this.isLoadingResults = false;
             });
           }
-
+          
+         
   calculatePrice(){
 
 this.objOrderPrice = Math.floor( this.qtyOrder* this.product.price);
   }
+
 
 
   initializeAll(){
@@ -148,6 +187,9 @@ this.objOrderPrice = Math.floor( this.qtyOrder* this.product.price);
     
    this.qtyOrder  =this.orderForm.controls['qtyOrdered'].value;
     this.objUsernanme = this.orderForm.controls['username'].value;
+ 
+
+    
     
     
     this.objProductOrder = new ProductOrder(
@@ -166,6 +208,8 @@ this.objUser = this.objFullProductOrder.objUser;
 this.objOrderPrice =  this.objFullProductOrder.objShoppingCart.totalPrice+ this.objOrderPrice;
 this.objFullProductOrder.objShoppingCart.totalPrice= this.objOrderPrice;
 this.udateShoppingCart(this.objFullProductOrder.objShoppingCart);
+this.findAdrress(this.objUser.userId);
+
 
 
 
@@ -176,7 +220,7 @@ this.udateShoppingCart(this.objFullProductOrder.objShoppingCart);
 
       }
     );
-  
+
 
   }
 

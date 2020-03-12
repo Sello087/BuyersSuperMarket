@@ -23,10 +23,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ecommerce.dao.AddressDao;
 import com.ecommerce.dao.ProductDao;
 import com.ecommerce.dao.ProductOrderDao;
 import com.ecommerce.dao.ShoppingCartDao;
 import com.ecommerce.dao.UserDetailsDao;
+import com.ecommerce.model.Address;
 import com.ecommerce.model.Product;
 import com.ecommerce.model.ProductOrder;
 import com.ecommerce.model.ShoppingCart;
@@ -48,6 +50,8 @@ ShoppingCartDao objShoppingCartDao;
 	ProductDao objProductDao;
 	@Autowired
 	ProductOrderDao objProductOrderDao;
+	@Autowired
+	AddressDao objAddressDao;
 	private Product objProduct;
 	
 	
@@ -163,6 +167,24 @@ ShoppingCartDao objShoppingCartDao;
 		  ShoppingCart updateShoppingCart =objShoppingCartDao.save(shoppingCart);	 
 		 return ResponseEntity.ok().body(updateShoppingCart);
 	 }
+	 
 	
+	 @PutMapping("/updateAddress")
+	 public ResponseEntity<Address> updateAddress( @Valid @RequestBody Address objAddress){
+		 Address address = objAddressDao.findOne(objAddress.getAddId());
+
+		 if (address==null) {
+			 return ResponseEntity.notFound().build();
+		 }
+		 
+		address.setHouseNumber(objAddress.getHouseNumber());
+		address.setStreet(objAddress.getStreet());
+		address.setCity(objAddress.getCity());
+		address.setState(objAddress.getState());
+		address.setZipCode(objAddress.getZipCode());
+		 
+		  Address updatedAddress =objAddressDao.save(address);	 
+		 return ResponseEntity.ok().body(updatedAddress);
+	 }
 	 
 }

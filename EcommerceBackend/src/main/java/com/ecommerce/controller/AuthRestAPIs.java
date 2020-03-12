@@ -92,6 +92,7 @@ public class AuthRestAPIs {
   ServletContext context;
   
    Address objAddress ;
+   User objUser;
    
     static User supplier;
     static User customer;
@@ -229,6 +230,11 @@ public class AuthRestAPIs {
   public Optional<User> findOneUser(@PathVariable(value="username") String username){
 	  return userRepository.findByUsername(username);
   }
-  
+ 
+  @GetMapping("/getAddress/{userId}")
+  public Address findAdress(@PathVariable(value="userId") int userId){
+	  objUser = objUserDetailDao.findByUserId(userId);
+	  return objUser.getAddress();
+  }
   
 }

@@ -1,3 +1,4 @@
+import { RegisterAddress } from './registerAddress-info';
 
 
 export class User {
@@ -8,10 +9,11 @@ export class User {
     username: string;
     email: string;
     contactNumber: string;
+    address: RegisterAddress;
     
  
  
-    constructor(userId :number,firstName: string, surname: string,username: string, email: string,contactNumber: string) {
+    constructor(userId :number,firstName: string, surname: string,username: string, email: string,contactNumber: string,address:RegisterAddress) {
         this.userId = userId;
         this.firstName = firstName;
         this.surname = surname;
@@ -19,7 +21,7 @@ export class User {
         this.username = username;
         this.email = email;
         this.contactNumber = contactNumber;
-        
+        this.address = address;
  
         
     }

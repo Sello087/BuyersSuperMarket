@@ -1,4 +1,4 @@
-
+<form [formGroup]="orderForm"  name="form" (ngSubmit)="onSubmit()" #f="ngForm" novalidate>
 <div class="modal" id="myModal">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -12,18 +12,19 @@
       <!-- Modal body -->
       <div class="modal-body">
 
-        <form [formGroup]="modelForm"  name="form" (ngSubmit)="onSubmit()" #f="ngForm" novalidate>
-        <label>House Number :</label>  <input type="text"  formControlName="houseNum" class="form-control"   /> 
-        <label>Street :</label>  <input type="text"   class="form-control"   /> 
-        <label>City :</label>  <input type="text"   class="form-control"   /> 
-        <label>State :</label>  <input type="text"   class="form-control"   /> 
-        <label>Zip Code :</label>  <input type="text"   class="form-control"   /> 
-        </form>      
+      
+        <label>House Number :</label>  <input type="text"  formControlName="houseNumber" class="form-control"   /> 
+        <label>Street :</label>  <input type="text"     formControlName="street" class="form-control"   /> 
+        <label>City :</label>  <input type="text"  formControlName="city" class="form-control"   /> 
+        <label>State :</label>  <input type="text" formControlName="state"   class="form-control"   /> 
+        <label>Zip Code :</label>  <input type="text"  formControlName="zipCode" class="form-control"   /> 
+           
 
       </div>
 
       <!-- Modal footer -->
       <div class="modal-footer">
+          <button type="button" class="btn btn-success" data-dismiss="modal" (click)=updateAddress(objAddress)>Verify</button>
         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
       </div>
 
@@ -32,14 +33,14 @@
 </div>
 
 
-
+<p>{{objTempUser|json}}</p>
 
 <div  *ngIf="objFullProductOrder != null"  class="card">
   
   <h3 class="card-header text-center font-weight-bold text-uppercase py-4">Shopping Cart</h3>
   <div class="card-body">
     <div id="table" class="table-editable">
-      <span class="table-add float-right mb-3 mr-2"><a href="product-display" class="text-success"><i class="fa fa-plus" style="font-size:48px;color:red"></i></a></span>
+      <span class="table-add float-right mb-3 mr-2"><a [routerLink]="['/product-display',product.category]" class="text-success"><i class="fa fa-plus" style="font-size:48px;color:red"></i></a></span>
       <table class="table table-bordered table-responsive-md table-striped text-center">
         <thead>
           <tr>
@@ -48,7 +49,7 @@
             <th class="text-center">Quantity Oredered</th>
             <th class="text-center">ShoppingCartID</th>
             <th class="text-center">UserId</th>
-            <th class="text-center">Barcode</th>
+            <th class="text-center">Product</th>
             <th class="text-center">Edit</th>
             <th class="text-center">Remove</th> 
           </tr>
@@ -59,7 +60,7 @@
             <td class="pt-3-half" contenteditable="true">{{orders.orderDate}}</td>
             <td class="pt-3-half" contenteditable="true">{{orders.qtyOrdered}}</td>
             <td class="pt-3-half" contenteditable="true">{{orders.objShoppingCart.cartId }}</td>
-            <td class="pt-3-half" contenteditable="true">{{orders.objUser.userId}}</td>
+            <td class="pt-3-half" contenteditable="true">{{orders.objUser.username}}</td>
             <td class="pt-3-half" contenteditable="true">{{orders.objProduct.prodName}}</td>
             <td>
               <span class="table-remove"><button type="button"
@@ -79,7 +80,7 @@
 
    
                
-        <form [formGroup]="orderForm"  name="form" (ngSubmit)="onSubmit()" #f="ngForm" novalidate>
+       
   
 <div class="form-group" *ngIf="objFullProductOrder == null" >
 
@@ -154,8 +155,9 @@
                   </div>
 
 
-</form>
 
         
 
 </div>
+
+</form>
