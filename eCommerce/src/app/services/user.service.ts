@@ -1,3 +1,5 @@
+
+import { Product } from './full-product-info';
 import { ProductOrder } from './product-order-info';
 import { SmartShopper } from './smartShopper-info';
 import { ShoppingCart } from './shoppingCart-info';
@@ -28,6 +30,8 @@ export class UserService {
     private getOneUserUrl ='http://localhost:8080/api/ecommerce/getAddress';
     private updateAddressUrl ='http://localhost:8080/api/ecommerce/updateAddress';
   private getProdByCategoryUrl ='http://localhost:8080/api/ecommerce/getAllCatProducts';
+  private updateProductUrl ='http://localhost:8080/api/ecommerce/updateProduct';
+
 
     constructor(private http: HttpClient) { }
    
@@ -76,7 +80,7 @@ export class UserService {
 
  updateShoppingCart(objShoppingCart : FullShoppingCart): Observable<any> {
         
-        return this.http.put(this.updateShoppingCartUrl,objShoppingCart).pipe(
+        return this.http.patch(this.updateShoppingCartUrl,objShoppingCart).pipe(
           tap(_ => console.log(`Updating cart `)),
                 );
       }
@@ -90,6 +94,12 @@ export class UserService {
                 );
       }
 
+      updateProduct(objProduct : Product): Observable<any> {
+      
+        return this.http.patch(this.updateProductUrl,objProduct).pipe(
+          tap(_ => console.log(`Updating product `)),
+                );
+      }
 
       
  updateAddress(objAddress : RegisterAddress): Observable<any> {

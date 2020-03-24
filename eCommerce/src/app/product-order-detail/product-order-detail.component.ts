@@ -204,6 +204,9 @@ this.objOrderPrice = Math.floor( this.qtyOrder* this.product.price);
       console.log(data);
 this.objFullProductOrder = data;
 this.getAllOrders(this.objFullProductOrder.objShoppingCart.cartId);
+
+
+
 this.objUser = this.objFullProductOrder.objUser;
 this.objOrderPrice =  this.objFullProductOrder.objShoppingCart.totalPrice+ this.objOrderPrice;
 this.objFullProductOrder.objShoppingCart.totalPrice= this.objOrderPrice;

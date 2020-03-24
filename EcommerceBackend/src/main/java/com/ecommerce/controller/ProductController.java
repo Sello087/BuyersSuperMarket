@@ -1,6 +1,7 @@
 package com.ecommerce.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -34,6 +36,7 @@ import com.ecommerce.model.ProductOrder;
 import com.ecommerce.model.ShoppingCart;
 import com.ecommerce.model.User;
 import com.ecommerce.model.reponse.ResponseMessage;
+import com.ecommerce.repository.ProductRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -46,6 +49,8 @@ public class ProductController {
 	
 	@Autowired
 ShoppingCartDao objShoppingCartDao;
+	@Autowired
+	ProductRepository objProductRepository;
 	@Autowired
 	ProductDao objProductDao;
 	@Autowired
@@ -83,14 +88,17 @@ ShoppingCartDao objShoppingCartDao;
 		 
 		 ShoppingCart objShoppingCart = objShoppingCartDao.findOne(cartId);
 		 List<ProductOrder> objPodOrder =objProductOrderDao.findAll(objShoppingCart);
-		 for(int i=0 ;i<objPodOrder.size();i++) {
+		 List<ProductOrder> objTempPodOrder = new ArrayList<>(); ;
+		 for(int i=0 ;i<objPodOrder .size();i++) {
 			 
+			 
+			 objTempPodOrder.add(objPodOrder.get(i));
 		 }
 		 User objUser = objPodOrder.get(0).getObjUser();
 		 
 		 
  		 
-		 return objPodOrder ;
+		 return objTempPodOrder ;
 	 }
 	 
 	 
@@ -104,10 +112,10 @@ ShoppingCartDao objShoppingCartDao;
 		 return ResponseEntity.ok().body(objProduct);
 	 } 
 	 
-	 @PutMapping("/Product/{id}")
-	 public ResponseEntity<Product> updateProd(@PathVariable(value="id") int barcode, @Valid @RequestBody Product objProduct){
+	 @PatchMapping("/updateProduct")
+	 public ResponseEntity<Product> updateProd( @Valid @RequestBody Product objProduct){
 
-		 Product product = objProductDao.findOne(barcode);
+		 Product product = objProductDao.findOne(objProduct.getBarcode());
 		 if (product==null) {
 			 return ResponseEntity.notFound().build();
 		 }
@@ -135,23 +143,32 @@ ShoppingCartDao objShoppingCartDao;
 	
 	 @PostMapping("/addProductOrder")
 		public ProductOrder createProductOrder(@Valid @RequestBody ProductOrder objProdOrder) {
-		 TimeZone.setDefault(TimeZone.getTimeZone("UTC")); 
-		 ProductOrder objProductOrder = new ProductOrder(objProdOrder.getQtyOrdered(),objProdOrder.getObjProduct());
-		 objProductOrder.setObjProduct(objProdOrder.getObjProduct());
-		objProductOrder.setObjShoppingCart(AuthRestAPIs.objCart);
-		objProductOrder.setOrderDate(new Date());
-		objProductOrder.setObjUser(AuthRestAPIs.customer);
+		 
+		
+		
+		 
+		    	TimeZone.setDefault(TimeZone.getTimeZone("UTC")); 
+				 ProductOrder objProductOrder = new ProductOrder(objProdOrder.getQtyOrdered(),objProdOrder.getObjProduct());
+				 objProductOrder.setObjProduct(objProdOrder.getObjProduct());
+				objProductOrder.setObjShoppingCart(AuthRestAPIs.objCart);
+				objProductOrder.setOrderDate(new Date());
+				objProductOrder.setObjUser(AuthRestAPIs.customer);
+				
+				
+		    
 		 return objProductOrderDao.save(objProductOrder);
-		}	
+		 
+		 }	
 	 
 	 
 	 @GetMapping("/getAllCatProducts/{category}")
 	 public  List<Product> getAllCatProducts(@PathVariable(value="category") String category){
-		 return objProductDao.findAllCatProduct(category);
+		 //return objProductDao.findAllCatProduct(category);
+		 return objProductRepository.getProductByCategory(category);
 	 }
 	 
 	 
-	 @PutMapping("/updateShoppingCart")
+	 @PatchMapping("/updateShoppingCart")
 	 public ResponseEntity<ShoppingCart> updateShoppingCart( @Valid @RequestBody ShoppingCart objShoppingCart){
 
 		 ShoppingCart shoppingCart = objShoppingCartDao.findOne(objShoppingCart.getCartId());
@@ -161,11 +178,11 @@ ShoppingCartDao objShoppingCartDao;
 		 
 		shoppingCart.setDeliveryMethod(objShoppingCart.getDeliveryMethod());
 		shoppingCart.setDeliveryStatus(objShoppingCart.getDeliveryStatus());
-		shoppingCart.setDeliveryMethod(objShoppingCart.getPaymentStatus());
+		shoppingCart.setDeliveryMethod( objShoppingCart.getPaymentStatus());
 		shoppingCart.setTotalPrice(objShoppingCart.getTotalPrice());
 		 
 		  ShoppingCart updateShoppingCart =objShoppingCartDao.save(shoppingCart);	 
-		 return ResponseEntity.ok().body(updateShoppingCart);
+		 return ResponseEntity.ok().body(updateShoppingCart); 
 	 }
 	 
 	
@@ -186,5 +203,25 @@ ShoppingCartDao objShoppingCartDao;
 		  Address updatedAddress =objAddressDao.save(address);	 
 		 return ResponseEntity.ok().body(updatedAddress);
 	 }
+	 
+
+	 @PatchMapping("/updateProductOrder")
+	 public ResponseEntity<ProductOrder> updateProdOrder( @Valid @RequestBody ProductOrder objProductOrder){
+
+		 ProductOrder productOrder = objProductOrderDao.findOne(objProductOrder.getOrderId());
+		 if (productOrder==null) {
+			 return ResponseEntity.notFound().build();
+		 }
+		 
+		 productOrder.setQtyOrdered(objProductOrder.getQtyOrdered());
+		 ProductOrder updateProductOrder =objProductOrderDao.save(productOrder);	 
+		 return ResponseEntity.ok().body(updateProductOrder);
+	 }
+	 
+	 @GetMapping("/getProdOrderByProducts/{orderId}")
+	 public  List<ProductOrder> getByProduct(@PathVariable(value="orderId") int orderId){
+		 return objProductOrderDao.groupByProduct(orderId);
+	 }
+	 
 	 
 }

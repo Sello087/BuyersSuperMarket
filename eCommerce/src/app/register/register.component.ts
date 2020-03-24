@@ -110,7 +110,7 @@ export class RegisterComponent implements OnInit {
 
     if(this.authority="user"){
 
-      this.shoppingCart = new ShoppingCart();
+      this.shoppingCart = new ShoppingCart(0,"none","none","none");
       this.userService.saveShoppingCart(this.shoppingCart).subscribe((data) =>{
         console.log(data);
            

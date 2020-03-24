@@ -4,12 +4,13 @@ export class ShoppingCart{
     paymentStatus: string;
     deliveryStatus: string;
 
-    constructor( ){
+    constructor( totalPrice: number,deliveryMetthod: string,paymentStatus: string,deliveryStatus: string
+    ){
 
-        this.totalPrice = 5;
-        this.deliveryMetthod = "none";
-        this.paymentStatus = "none";
-        this.deliveryStatus = "none";
+        this.totalPrice = totalPrice;
+        this.deliveryMetthod = deliveryMetthod;
+        this.paymentStatus = paymentStatus;
+        this.deliveryStatus = deliveryStatus;
         
     }
 }

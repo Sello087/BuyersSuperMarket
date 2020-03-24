@@ -33,6 +33,10 @@ public class ProductDao {
 		return objProductRepository.findAll();
 	}
 	
+	public List<Product> prodByCatg(String category){
+		return objProductRepository.getProductByCategory(category);
+	}
+	
 	public Product findOne(int barcode) {
 		return objProductRepository.getOne(barcode);
 	}

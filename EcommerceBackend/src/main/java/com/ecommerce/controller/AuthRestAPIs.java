@@ -85,8 +85,6 @@ public class AuthRestAPIs {
   @Autowired
   ShoppingCartDao objShoppingCartDao;
   
-  @Autowired
-  ProductDao objProductDao;
   
   @Autowired
   ServletContext context;
